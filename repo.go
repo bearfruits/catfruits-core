@@ -6,25 +6,30 @@ import (
 	"path/filepath"
 )
 
+// Infomation is a repository infomation.
 type Infomation struct {
 	Flameworks []string `json:"flameworks"`
 }
 
-type RepoScanner struct {
+// Scanner is scanner for repository.
+type Scanner struct {
 	dir    string
 	fwFunc map[string]FlameworkFunc
 }
 
-type FlameworkFunc func(*RepoScanner) (ok bool, err error)
+// FlameworkFunc is a function that detects framework
+type FlameworkFunc func(*Scanner) (ok bool, err error)
 
-func NewScanner(dir string) *RepoScanner {
-	return &RepoScanner{
+// NewScanner returns a Scanner
+func NewScanner(dir string) *Scanner {
+	return &Scanner{
 		dir:    dir,
 		fwFunc: DefaultFlameworkFuncs,
 	}
 }
 
-func (sc *RepoScanner) Scan() (*Infomation, error) {
+// Scan scans a repository.
+func (sc *Scanner) Scan() (*Infomation, error) {
 	info := &Infomation{
 		Flameworks: make([]string, 0),
 	}
@@ -46,16 +51,19 @@ func (sc *RepoScanner) Scan() (*Infomation, error) {
 
 // ----------- Helper functions
 
-func (sc *RepoScanner) FilePath(path string) string {
+// FilePath returns a filepath
+func (sc *Scanner) FilePath(path string) string {
 	return filepath.Join(sc.dir, path)
 }
 
-func (sc *RepoScanner) FileExist(path string) bool {
+// FileExist returns a bool
+func (sc *Scanner) FileExist(path string) bool {
 	fname := sc.FilePath(path)
 	_, err := os.Stat(fname)
 	return err == nil
 }
 
-func (sc *RepoScanner) ReadFile(path string) ([]byte, error) {
+// ReadFile returns a file value
+func (sc *Scanner) ReadFile(path string) ([]byte, error) {
 	return ioutil.ReadFile(sc.FilePath(path))
 }
