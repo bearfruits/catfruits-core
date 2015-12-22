@@ -6,12 +6,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/bearfruits/repo"
+	"github.com/bearfruits/catfruits-core"
 )
 
 func main() {
 	for _, dir := range os.Args[1:] {
-		sc := repo.NewScanner(dir)
+		sc := catfruits.NewScanner(dir)
 		info, err := sc.Scan()
 		if err != nil {
 			panic(err)

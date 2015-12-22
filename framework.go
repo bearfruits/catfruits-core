@@ -1,4 +1,4 @@
-package repo
+package catfruits
 
 // DefaultFlameworkFuncs is default framework set
 var DefaultFlameworkFuncs = map[string]FlameworkFunc{

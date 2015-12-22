@@ -1,4 +1,4 @@
-package repo
+package catfruits
 
 import (
 	"io/ioutil"
