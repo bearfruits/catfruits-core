@@ -2,30 +2,30 @@ package catfruits
 
 // Infomation is a repository infomation.
 type Infomation struct {
-	Flameworks []string `json:"flameworks"`
+	Frameworks []string `json:"frameworks"`
 }
 
 // Scanner is scanner for repository.
 type Scanner struct {
 	dir    string
-	fwFunc map[string]FlameworkFunc
+	fwFunc map[string]FrameworkFunc
 }
 
-// FlameworkFunc is a function that detects framework
-type FlameworkFunc func(*Scanner) (ok bool, err error)
+// FrameworkFunc is a function that detects framework
+type FrameworkFunc func(*Scanner) (ok bool, err error)
 
 // NewScanner returns a Scanner
 func NewScanner(dir string) *Scanner {
 	return &Scanner{
 		dir:    dir,
-		fwFunc: DefaultFlameworkFuncs,
+		fwFunc: DefaultFrameworkFuncs,
 	}
 }
 
 // Scan scans a repository.
 func (sc *Scanner) Scan() (*Infomation, error) {
 	info := &Infomation{
-		Flameworks: make([]string, 0),
+		Frameworks: make([]string, 0),
 	}
 
 	for name, f := range sc.fwFunc {
@@ -37,7 +37,7 @@ func (sc *Scanner) Scan() (*Infomation, error) {
 			continue
 		}
 
-		info.Flameworks = append(info.Flameworks, name)
+		info.Frameworks = append(info.Frameworks, name)
 	}
 
 	return info, nil

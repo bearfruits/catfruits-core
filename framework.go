@@ -1,7 +1,7 @@
 package catfruits
 
-// DefaultFlameworkFuncs is default framework set
-var DefaultFlameworkFuncs = map[string]FlameworkFunc{
+// DefaultFrameworkFuncs is default framework set
+var DefaultFrameworkFuncs = map[string]FrameworkFunc{
 	"Ruby on Rails": FWRails,
 }
 
