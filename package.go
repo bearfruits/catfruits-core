@@ -1,10 +1,14 @@
 package catfruits
 
-import "regexp"
+import (
+	"encoding/json"
+	"regexp"
+)
 
 // DefaultPakcageFuncs is default package set
 var DefaultPakcageFuncs = map[string]PackageFunc{
-	"Gem": pkgGem,
+	"gem": pkgGem,
+	"npm": pkgNPM,
 }
 
 func pkgGem(sc *Scanner) ([]string, error) {
@@ -20,6 +24,35 @@ func pkgGem(sc *Scanner) ([]string, error) {
 	res := make([]string, 0, len(m))
 	for _, v := range m {
 		res = append(res, string(v[1]))
+	}
+	return res, nil
+}
+
+type packageJSON struct {
+	Dependencies    map[string]string `json:"dependencies"`
+	DevDependencies map[string]string `json:"devDependencies"`
+}
+
+func pkgNPM(sc *Scanner) ([]string, error) {
+	if !sc.FileExist("package.json") {
+		return nil, nil
+	}
+	b, err := sc.ReadFile("package.json")
+	if err != nil {
+		return nil, err
+	}
+	pj := &packageJSON{}
+
+	if err := json.Unmarshal(b, pj); err != nil {
+		return nil, err
+	}
+
+	res := make([]string, 0, len(pj.Dependencies)+len(pj.DevDependencies))
+	for name, _ := range pj.Dependencies {
+		res = append(res, name)
+	}
+	for name, _ := range pj.DevDependencies {
+		res = append(res, name)
 	}
 	return res, nil
 }
