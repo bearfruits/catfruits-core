@@ -15,6 +15,8 @@ type Scanner struct {
 
 // FrameworkFunc is a function that detects framework
 type FrameworkFunc func(*Scanner) (ok bool, err error)
+
+// PackageFunc detects any packages
 type PackageFunc func(*Scanner) (pkgs []string, err error)
 
 // NewScanner returns a Scanner

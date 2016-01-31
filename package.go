@@ -2,6 +2,7 @@ package catfruits
 
 import "regexp"
 
+// DefaultPakcageFuncs is default package set
 var DefaultPakcageFuncs = map[string]PackageFunc{
 	"Gem": pkgGem,
 }
