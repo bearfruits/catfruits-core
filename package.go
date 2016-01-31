@@ -7,8 +7,9 @@ import (
 
 // DefaultPakcageFuncs is default package set
 var DefaultPakcageFuncs = map[string]PackageFunc{
-	"gem": pkgGem,
-	"npm": pkgNPM,
+	"gem":   pkgGem,
+	"npm":   pkgNPM,
+	"bower": pkgBower,
 }
 
 func pkgGem(sc *Scanner) ([]string, error) {
@@ -38,6 +39,30 @@ func pkgNPM(sc *Scanner) ([]string, error) {
 		return nil, nil
 	}
 	b, err := sc.ReadFile("package.json")
+	if err != nil {
+		return nil, err
+	}
+	pj := &packageJSON{}
+
+	if err := json.Unmarshal(b, pj); err != nil {
+		return nil, err
+	}
+
+	res := make([]string, 0, len(pj.Dependencies)+len(pj.DevDependencies))
+	for name := range pj.Dependencies {
+		res = append(res, name)
+	}
+	for name := range pj.DevDependencies {
+		res = append(res, name)
+	}
+	return res, nil
+}
+
+func pkgBower(sc *Scanner) ([]string, error) {
+	if !sc.FileExist("bower.json") {
+		return nil, nil
+	}
+	b, err := sc.ReadFile("bower.json")
 	if err != nil {
 		return nil, err
 	}
