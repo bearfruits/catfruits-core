@@ -48,10 +48,10 @@ func pkgNPM(sc *Scanner) ([]string, error) {
 	}
 
 	res := make([]string, 0, len(pj.Dependencies)+len(pj.DevDependencies))
-	for name, _ := range pj.Dependencies {
+	for name := range pj.Dependencies {
 		res = append(res, name)
 	}
-	for name, _ := range pj.DevDependencies {
+	for name := range pj.DevDependencies {
 		res = append(res, name)
 	}
 	return res, nil
