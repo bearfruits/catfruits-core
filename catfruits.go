@@ -10,6 +10,7 @@ type Infomation struct {
 type Scanner struct {
 	dir    string
 	fwFunc map[string]FrameworkFunc
+	info   *Infomation
 }
 
 // FrameworkFunc is a function that detects framework
@@ -21,16 +22,16 @@ func NewScanner(dir string) *Scanner {
 	return &Scanner{
 		dir:    dir,
 		fwFunc: DefaultFrameworkFuncs,
+		info: &Infomation{
+			Frameworks: make([]string, 0),
+			Packages:   make(map[string][]string),
+		},
 	}
 }
 
 // Scan scans a repository.
 func (sc *Scanner) Scan() (*Infomation, error) {
-	info := &Infomation{
-		Frameworks: make([]string, 0),
-		Packages:   make(map[string][]string),
-	}
-
+	info := sc.info
 	for name, f := range DefaultPakcageFuncs {
 		pkgs, err := f(sc)
 		if err != nil {
