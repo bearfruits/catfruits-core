@@ -24,3 +24,17 @@ func (sc *Scanner) FileExist(path string) bool {
 func (sc *Scanner) ReadFile(path string) ([]byte, error) {
 	return ioutil.ReadFile(sc.FilePath(path))
 }
+
+func (sc *Scanner) hasPackage(pkg, name string) bool {
+	pkgs, ok := sc.info.Packages[pkg]
+	if !ok {
+		return false
+	}
+
+	for _, v := range pkgs {
+		if v == name {
+			return true
+		}
+	}
+	return false
+}
