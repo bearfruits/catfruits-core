@@ -2,7 +2,8 @@ package catfruits
 
 // Infomation is a repository infomation.
 type Infomation struct {
-	Frameworks []string `json:"frameworks"`
+	Frameworks []string            `json:"frameworks"`
+	Packages   map[string][]string `json:"packages"`
 }
 
 // Scanner is scanner for repository.
@@ -13,6 +14,7 @@ type Scanner struct {
 
 // FrameworkFunc is a function that detects framework
 type FrameworkFunc func(*Scanner) (ok bool, err error)
+type PackageFunc func(*Scanner) (pkgs []string, err error)
 
 // NewScanner returns a Scanner
 func NewScanner(dir string) *Scanner {
@@ -26,6 +28,15 @@ func NewScanner(dir string) *Scanner {
 func (sc *Scanner) Scan() (*Infomation, error) {
 	info := &Infomation{
 		Frameworks: make([]string, 0),
+		Packages:   make(map[string][]string),
+	}
+
+	for name, f := range DefaultPakcageFuncs {
+		pkgs, err := f(sc)
+		if err != nil {
+			return nil, err
+		}
+		info.Packages[name] = pkgs
 	}
 
 	for name, f := range sc.fwFunc {
