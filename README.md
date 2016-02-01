@@ -3,6 +3,7 @@ catfruits-core
 
 :cat: framework detection library :cat:
 
+[![Build Status](https://travis-ci.org/bearfruits/catfruits-core.svg?branch=master)](https://travis-ci.org/bearfruits/catfruits-core)
 
 Installation
 ----------
