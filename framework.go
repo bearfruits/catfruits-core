@@ -10,6 +10,9 @@ var DefaultFrameworkFuncs = map[string]FrameworkFunc{
 	"React":    fwJSGen("react"),
 	"Angular":  fwJSGen("angular"),
 	"backbone": fwJSGen("backbone"),
+
+	// PHP
+	"CakePHP": fwCakePHP,
 }
 
 // FWRails detects Ruby on Rails
@@ -25,4 +28,9 @@ func fwJSGen(name string) FrameworkFunc {
 		return sc.hasPackage("bower", name) ||
 			sc.hasPackage("npm", name), nil
 	}
+}
+
+func fwCakePHP(sc *Scanner) (bool, error) {
+	return sc.FileExist("cake/bootstrap.php") ||
+		sc.FileExist("lib/Cake/bootstrap.php"), nil
 }
