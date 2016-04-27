@@ -34,11 +34,11 @@ type packageJSON struct {
 	DevDependencies map[string]string `json:"devDependencies"`
 }
 
-func pkgNPM(sc *Scanner) ([]string, error) {
-	if !sc.FileExist("package.json") {
+func pkgJSON(sc *Scanner, filename string) ([]string, error) {
+	if !sc.FileExist(filename) {
 		return nil, nil
 	}
-	b, err := sc.ReadFile("package.json")
+	b, err := sc.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
@@ -56,28 +56,13 @@ func pkgNPM(sc *Scanner) ([]string, error) {
 		res = append(res, name)
 	}
 	return res, nil
+
+}
+
+func pkgNPM(sc *Scanner) ([]string, error) {
+	return pkgJSON(sc, "package.json")
 }
 
 func pkgBower(sc *Scanner) ([]string, error) {
-	if !sc.FileExist("bower.json") {
-		return nil, nil
-	}
-	b, err := sc.ReadFile("bower.json")
-	if err != nil {
-		return nil, err
-	}
-	pj := &packageJSON{}
-
-	if err := json.Unmarshal(b, pj); err != nil {
-		return nil, err
-	}
-
-	res := make([]string, 0, len(pj.Dependencies)+len(pj.DevDependencies))
-	for name := range pj.Dependencies {
-		res = append(res, name)
-	}
-	for name := range pj.DevDependencies {
-		res = append(res, name)
-	}
-	return res, nil
+	return pkgJSON(sc, "bower.json")
 }
