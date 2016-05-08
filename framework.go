@@ -4,6 +4,7 @@ package catfruits
 var DefaultFrameworkFuncs = map[string]FrameworkFunc{
 	// Ruby
 	"Ruby on Rails": fwRails,
+	"Padrino":       fwPadrino,
 
 	// JavaScript
 	"Vue":      fwJSGen("vue"),
@@ -20,6 +21,10 @@ func fwRails(sc *Scanner) (bool, error) {
 	return sc.hasPackage("gem", "rails") ||
 		sc.FileExist("script/rails") ||
 		sc.FileExist("bin/rails"), nil
+}
+
+func fwPadrino(sc *Scanner) (bool, error) {
+	return sc.FileContains("config/apps.rb", "Padrino") || sc.FileContains("config/boot.rb", "Padrino"), nil
 }
 
 // bower と npm から探索する関数をかえす

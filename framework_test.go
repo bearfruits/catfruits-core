@@ -14,6 +14,10 @@ func TestFWVue(t *testing.T) {
 	fwTestHelper("Vue", "vue/npm", t)
 }
 
+func TestFWPadrino(t *testing.T) {
+	fwTestHelper("Padrino", "padrino", t)
+}
+
 func fwTestHelper(name, branch string, t *testing.T) {
 	exec.Command("bash", "-c", fmt.Sprintf("cd %s; git checkout %s", sandboxDir, branch)).Run()
 	sc := NewScanner(sandboxDir)
