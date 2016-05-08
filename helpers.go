@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // ----------- Helper functions
@@ -37,4 +38,12 @@ func (sc *Scanner) hasPackage(pkg, name string) bool {
 		}
 	}
 	return false
+}
+
+func (sc *Scanner) FileContains(path, content string) bool {
+	b, err := sc.ReadFile(path)
+	if err != nil {
+		return false
+	}
+	return strings.Contains(string(b), content)
 }
