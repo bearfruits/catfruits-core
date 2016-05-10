@@ -18,6 +18,10 @@ func TestFWPadrino(t *testing.T) {
 	fwTestHelper("Padrino", "padrino", t)
 }
 
+func TestFWPlayFramework(t *testing.T) {
+	fwTestHelper("Play Framework", "play_activator", t)
+}
+
 func fwTestHelper(name, branch string, t *testing.T) {
 	exec.Command("bash", "-c", fmt.Sprintf("cd %s; git checkout %s", sandboxDir, branch)).Run()
 	sc := NewScanner(sandboxDir)

@@ -14,6 +14,9 @@ var DefaultFrameworkFuncs = map[string]FrameworkFunc{
 
 	// PHP
 	"CakePHP": fwCakePHP,
+
+	// JVM
+	"Play Framework": fwPlayFramework,
 }
 
 // FWRails detects Ruby on Rails
@@ -38,4 +41,9 @@ func fwJSGen(name string) FrameworkFunc {
 func fwCakePHP(sc *Scanner) (bool, error) {
 	return sc.FileExist("cake/bootstrap.php") ||
 		sc.FileExist("lib/Cake/bootstrap.php"), nil
+}
+
+func fwPlayFramework(sc *Scanner) (bool, error) {
+	return sc.FileExist("activator") ||
+		sc.FileExist("activator.bat"), nil
 }
